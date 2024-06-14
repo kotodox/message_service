@@ -28,6 +28,15 @@ def test_create_recipient():
         "message_counter": 1
     }
 
+def test_list_recipients():
+    response1 = client.get("/recipients/")
+    for i in range(20):
+        client.post("/recipients/new", json={"user_id": f"user{i}"})
+    response2 = client.get("/recipients/")
+    assert response1.status_code == 404
+    assert len(response2.json()) ==20 
+
+
 def test_create_message():
     client.post("/recipients/new", json={"user_id": "user1"})
     response1 = client.post("/messages/send/", json={"recipient_id": "user2", "message": "Hello, user1!"})

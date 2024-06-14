@@ -31,4 +31,7 @@ def submit_recipient(recipient: Recipient_create, recipients: Dict[str, Recipien
 #HTTP request method for listing all current recipients
 @router.get("/recipients/", response_model=List[Recipient])
 def list_recipients(recipients: Dict[str, Recipient] = Depends(lambda: fake_db)):
-    return list(recipients.values())
+    if(recipients):
+        return list(recipients.values())
+    else:
+        raise HTTPException(status_code=404, detail="No recipients exist")
