@@ -76,14 +76,26 @@ This is a simple message service built with FastAPI. The service allows you to:
         ```json
         {
             "user_id": "user1",
-            "name": "John Doe",
-            "email": "john.doe@example.com"
         }
         ```
+    - **Example**:
+        ```bash
+        curl -X POST "http://127.0.0.1:8000/recipients/new/" -H "Content-Type: application/json" -d '{"user_id": "user1"}'
+        ```
 
-2. **Submit a Message**
+2. **List of all Recipients**
 
-    - **URL**: `/messages/`
+    - **URL**: `/recipients/`
+    - **Method**: `GET`
+    - **Example**:
+    ```bash
+    curl -X GET "http://127.0.0.1:8000/recipients/"
+    ```
+
+
+3. **Submit a Message**
+
+    - **URL**: `/messages/send/`
     - **Method**: `POST`
     - **Request Body**:
         ```json
@@ -92,30 +104,60 @@ This is a simple message service built with FastAPI. The service allows you to:
             "message": "Hello, user1!"
         }
         ```
+        - **Example**:
+        ```bash
+        curl -X POST "http://127.0.0.1:8000/messages/send/" -H "Content-Type: application/json" -d '{"recipient_id": "user1", "message": "Hello, user1!"}'
+        ```
 
-3. **Fetch New Messages**
+4. **Fetch New Messages**
 
     - **URL**: `/messages/fetch/new/{recipient_id}`
     - **Method**: `GET`
+    - **Example**:
+        ```bash
+        curl -X GET "http://127.0.0.1:8000/messages/fetch/new/user1"
+        ```
 
-4. **Delete a Single Message**
+5. **Fetch Messages within certain index of all messages sorted according to timestamp**
 
-    - **URL**: `/messages/{recipient_id}/{message_id}`
+    - **URL**: `/messages/fetch/{recipient_id}?start=0&stop=10`
+    - **Method**: `GET`
+    - **Example**:
+        ```bash
+        curl -X GET "http://127.0.0.1:8000/messages/fetch/user1?start=0&stop=10"
+        ```
+
+6. **Fetch amount of messages recipient has**
+
+    - **URL**: `/messages/amount/{recipient_id}`
+    - **Method**: `GET`
+    - **Example**:
+        ```bash
+        curl -X GET "http://127.0.0.1:8000/messages/amount/user1"
+        ```
+
+7. **Delete a Single Message**
+
+    - **URL**: `/messages/delete/{recipient_id}/{message_id}`
     - **Method**: `DELETE`
+    - **Example**:
+        ```bash
+        curl -X DELETE "http://127.0.0.1:8000/messages/delete/user1/1"
+        ```
 
-5. **Delete Multiple Messages**
+8. **Delete Multiple Messages**
 
-    - **URL**: `/messages/{recipient_id}`
-    - **Method**: `DELETE`
+    - **URL**: `/messages/delete/multiple/{recipient_id}`
+    - **Method**: `POST`
     - **Request Body**:
         ```json
         [1, 2, 3]
         ```
+    - **Example**:
+        ```bash
+        curl -X POST "http://127.0.0.1:8000/messages/delete/multiple/user1" -H "Content-Type: application/json" -d '[1, 2, 3]'
+        ```
 
-6. **Fetch Messages with Pagination**
-
-    - **URL**: `/messages/{recipient_id}?start=0&stop=10`
-    - **Method**: `GET`
 
 ### Running Tests
 
