@@ -166,3 +166,12 @@ To run tests, ensure you have `pytest` installed. You can install it using Pipen
 ```bash
 pipenv install pytest
 ```
+To start tests first activate virtual enviroment with command 
+```bash
+pipenv shell
+```
+and then use command 
+```bash
+pytest
+```
+inside the enviroment
